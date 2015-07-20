@@ -25,7 +25,7 @@ function parser(url){
 			product_price[i]=price.children('span.product-price').text().replace(/\D+/,"").trim();
             product_id[i]=$(this).attr('onclick').replace("s_objectID='product_","").replace("_name';","");
 		});
-        var price_file_name = "price_";
+        var price_file_name = "price_"+new Date.toISOstring();
         fs.writeFileSync(price_file_name, "product_id"+"\t"+"name"+"\t"+"rating"+"\t"+"rating_count"+"\t"+"price_now"+"\t"+"price_was"+"\t"+"product_price"+"\n");
 		for (var i=0;i<names.length;i++){
             var output_string = product_id[i]+"\t"+names[i]+"\t"+rating[i]+"\t"+rating_count[i]+"\t"+price_now[i]+"\t"+price_was[i]+"\t"+product_price[i]+"\n";
