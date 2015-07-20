@@ -1,6 +1,6 @@
 var request = require('request');
 var cheerio = require('cheerio');
-var fs = require('fs')
+var fs = require('graceful-fs')
 
 function parser(url){
 	request.get(url,function (err,res,body){
@@ -26,7 +26,7 @@ function parser(url){
             product_id[i]=$(this).attr('onclick').replace("s_objectID='product_","").replace("_name';","");
 		});
         var price_file_name = "price_";
-        fs.appendFileSync(price_file_name, "product_id"+"\t"+"name"+"\t"+"rating"+"\t"+"rating_count"+"\t"+"price_now"+"\t"+"price_was"+"\t"+"product_price"+"\n");
+        fs.writeFileSync(price_file_name, "product_id"+"\t"+"name"+"\t"+"rating"+"\t"+"rating_count"+"\t"+"price_now"+"\t"+"price_was"+"\t"+"product_price"+"\n");
 		for (var i=0;i<names.length;i++){
             var output_string = product_id[i]+"\t"+names[i]+"\t"+rating[i]+"\t"+rating_count[i]+"\t"+price_now[i]+"\t"+price_was[i]+"\t"+product_price[i]+"\n";
             fs.appendFile(price_file_name, output_string, function (err) {
