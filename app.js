@@ -37,24 +37,22 @@ function parser(url){
 		}
 
 		//把資訊加到舊的file裡面
-
         if (series.length==0){
         	series[0]="id\tname\t"+time;
         	for (var i =0;i<product_id.length;i++){
-        		var price=price_was[i];
-        		if (price_was[i].length < price_now[i]){
+        		var price=product_price[i];
+        		if (product_price[i].length < price_now[i].length){
         			price=price_now[i];
         		}
         		series[i+1]=[product_id[i],names[i],price];
         	}
         }
         else{
+            series[0]=series[0]+"\t"+time;
         	for (var i =0; i<product_id.length;i++){
-        		series[0]=series[0]+"\t"+time;
-        		var price=price_was[i];
-        		if (price_was[i].length < price_now[i].length){
+        		var price=product_price[i];
+        		if (product_price[i].length < price_now[i].length){
         			price=price_now[i];
-        			console.log("now!");
         		}
         		var flag=0;
         		for (var j=1;j<series.length;j++){
