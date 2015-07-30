@@ -31,9 +31,9 @@ function parser(url){
         fs.writeFileSync(price_file_name, "product_id"+"\t"+"name"+"\t"+"rating"+"\t"+"rating_count"+"\t"+"price_now"+"\t"+"price_was"+"\t"+"product_price"+"\n");
 		for (var i=0;i<names.length;i++){
             var output_string = product_id[i]+"\t"+names[i]+"\t"+rating[i]+"\t"+rating_count[i]+"\t"+price_now[i]+"\t"+price_was[i]+"\t"+product_price[i]+"\n";
-            fs.appendFile(price_file_name, output_string, function (err) {
-            if (err) throw err;
-        	});
+         //    fs.appendFile(price_file_name, output_string, function (err) {
+         //    if (err) throw err;
+        	// });
 		}
 
 		//把資訊加到舊的file裡面
@@ -59,7 +59,7 @@ function parser(url){
         		var flag=0;
         		for (var j=1;j<series.length;j++){
         			if (series[j][0]===product_id[i]){
-        				series[j].append(price);
+        				series[j].push(price);
         				flag=1;
         				break;
         			}
@@ -67,12 +67,12 @@ function parser(url){
         		if (flag===0){
         			var length=series.length;
         			series[length]=[];
-        			series[length].append(product_id[i]);
-        			series[length].append(names[i]);
+        			series[length].push(product_id[i]);
+        			series[length].push(names[i]);
         			for (var k=0;k<counter;k++){
-        				series[length].append("");
+        				series[length].push("");
         			}
-        			series[length].append(price);
+        			series[length].push(price);
         		}
         	}
         }
@@ -80,6 +80,6 @@ function parser(url){
 	});
 
 }
-var series= new Array();
+var series=[];
 parser("http://www.whitehouseblackmarket.com/store/product-list/?No=0&Nrpp=10");
 parser("http://www.whitehouseblackmarket.com/store/product-list/?No=5&Nrpp=15");
