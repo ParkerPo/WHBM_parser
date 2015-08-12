@@ -32,14 +32,19 @@ function parser(url ,cb){
         var time = sys_time.getFullYear()+"-"+(sys_time.getMonth()+1)+"-"+sys_time.getDate()+"-"+sys_time.getHours();
 
         var price_file_name = "price_"+time+".txt";
-        fs.writeFileSync(price_file_name, "product_id"+"\t"+"name"+"\t"+"rating"+"\t"+"rating_count"+"\t"+"price_now"+"\t"+"price_was"+"\t"+"product_price"+"\n");
+        
 		for (var i=0;i<names.length;i++){
             
             var output_string = product_id[i]+"\t"+names[i]+"\t"+rating[i]+"\t"+rating_count[i]+"\t"+price_now[i]+"\t"+price_was[i]+"\t"+product_price[i]+"\n";
             fs.appendFileSync(price_file_name, output_string);
 		}
 
-		//把資訊加到舊的file裡面
+        cb()
+	});
+}
+
+function update_summary() {
+    //把資訊加到舊的file裡面
         if (series.length==0){
             series[0]=["id","name"];
         	series[0].push(time);
@@ -85,16 +90,19 @@ function parser(url ,cb){
         		}
         	}
         }
-        cb()
-	});
 }
 
 var i=0;
 var counter=1;
 async.whilst(
     function (){
-        return i<5;
+        return i<1;
     }, function (callback2){
+        var sys_time = new Date;
+        var time = sys_time.getFullYear()+"-"+(sys_time.getMonth()+1)+"-"+sys_time.getDate()+"-"+sys_time.getHours();
+
+        var price_file_name = "price_"+time+".txt";
+        fs.writeFileSync(price_file_name, "product_id"+"\t"+"name"+"\t"+"rating"+"\t"+"rating_count"+"\t"+"price_now"+"\t"+"price_was"+"\t"+"product_price"+"\n");
         async.series([
             function (callback){
                parser("http://www.whitehouseblackmarket.com/store/product-list/?No=0&Nrpp=1000",callback)
@@ -104,7 +112,7 @@ async.whilst(
             }
         ],function(err){
             i++;
-            sleep.sleep(3600)
+            //sleep.sleep(30)
             callback2();
         });
         
