@@ -116,7 +116,7 @@ var i=0;
 var counter=1;
 async.whilst(
     function (){
-        return i<1;
+        return i<5;
     }, function (callback2){
         var sys_time = new Date;
         var time = sys_time.getFullYear()+"-"+(sys_time.getMonth()+1)+"-"+sys_time.getDate()+"-"+sys_time.getHours();
@@ -138,7 +138,7 @@ async.whilst(
             }
         ],function(err){
             i++;
-            //sleep.sleep(30)
+            sleep.sleep(30)
             callback2();
         });
         
